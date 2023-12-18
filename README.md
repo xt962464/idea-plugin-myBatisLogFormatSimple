@@ -9,8 +9,6 @@
 
 If you have questions or other ideas, you can provide feedback on the <a href="https://github.com/xt962464/MyBatisLogFormatter/issues" target="_blank">Issues</a> section.
 
-![](https://github.com/xt962464/MyBatisLogFormatter\readme\1.png)
+![](/readme/1.png)
 
-
-
-![](https://github.com/xt962464/MyBatisLogFormatter\readme\2.png)
+![](/readme/2.png)
