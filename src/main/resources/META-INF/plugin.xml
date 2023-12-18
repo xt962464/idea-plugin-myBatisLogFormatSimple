@@ -20,7 +20,7 @@
           <li>In the console, you only need to select or copy the MyBatis logs like `prepare: xxx` `parameters: xxx`, then right-click and choose MyBatisLogFormatter. This will complete the SQL formatting and copy it to the clipboard.</li>
           <li>In the tool window, open MyBatisLogFormatter to achieve SQL compression and beautification.</li>
       </ul>
-      If you have questions or other ideas, you can provide feedback on the <a href="https://github.com/xt962464/idea-plugin-MyBatisLogFormatter" target="_blank">Issues</a> section.
+      If you have questions or other ideas, you can provide feedback on the <a href="https://github.com/xt962464/MyBatisLogFormatter/issues" target="_blank">Issues</a> section.
   ]]></description>
 
   <!-- Product and plugin compatibility requirements.
