@@ -1,0 +1,46 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+  <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+  <id>com.alan.plugins.MyBatisLogFormatter</id>
+
+  <!-- Public plugin name should be written in Title Case.
+       Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+  <name>MyBatisLogFormatter</name>
+  <version>1.0.0</version>
+
+  <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+  <vendor email="alan.i80803@gmail.com" url="https://github.com/xt962464/idea-plugin-MyBatisLogFormatter">MyBatisLogFormatter</vendor>
+
+  <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+       Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+       Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+  <description><![CDATA[
+      MyBatisLogFormatter, designed to extract MyBatis logs, fill parameters into SQL, and compress and beautify SQL.
+      <ul>
+          <li>In the console, you only need to select or copy the MyBatis logs like `prepare: xxx` `parameters: xxx`, then right-click and choose MyBatisLogFormatter. This will complete the SQL formatting and copy it to the clipboard.</li>
+          <li>In the tool window, open MyBatisLogFormatter to achieve SQL compression and beautification.</li>
+      </ul>
+      If you have questions or other ideas, you can provide feedback on the <a href="https://github.com/xt962464/idea-plugin-MyBatisLogFormatter" target="_blank">Issues</a> section.
+  ]]></description>
+
+  <!-- Product and plugin compatibility requirements.
+       Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+  <depends>com.intellij.modules.platform</depends>
+
+  <!-- Extension points defined by the plugin.
+       Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+  <extensions defaultExtensionNs="com.intellij">
+    <toolWindow id="MyBatisLogFormatter"
+                secondary="true"
+                icon="/icons/me.png"
+                anchor="right"
+                factoryClass="com.alan.plugins.MyBatisLogFormatter.toolWindow.factory.MybatisLogFormatToolWindowFactory"/>
+  </extensions>
+  <actions>
+    <action id="com.alan.plugins.MyBatisLogFormatter.actions.MyBatisLogFormatter"
+            class="com.alan.plugins.MyBatisLogFormatter.actions.MyBatisLogFormatter" text="MyBatisLogFormatter"
+            description="MyBatisLogFormatter">
+      <add-to-group group-id="ConsoleEditorPopupMenu" anchor="first"/>
+    </action>
+  </actions>
+</idea-plugin>
