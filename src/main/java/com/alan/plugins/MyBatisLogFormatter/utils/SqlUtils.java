@@ -11,7 +11,7 @@ public class SqlUtils {
     private static final String preparing = "Preparing: ";
     private static final String parameters = "Parameters: ";
 
-    public static final String sqlParametersPattern = "(,\\s){0,}(.*?)\\((Integer|int|Long|long|Float|float|String|char|Char|Date|LocalDateTime|localDateTime|LocalDate|localDate|Timestamp)\\)";
+    public static final String sqlParametersPattern = "(,\\s){0,}(.*?)\\((Integer|int|Long|long|Float|float|String|char|Char|Date|LocalDateTime|localDateTime|LocalDate|localDate|Timestamp|Boolean|boolean)\\)";
 
     public static final String sqlPlaceholder = "#占位符";
 
