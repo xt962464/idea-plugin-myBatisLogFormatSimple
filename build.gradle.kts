@@ -20,7 +20,7 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.3.1") // 编译的 IDEA 版本
+    version.set("2023.3.2") // 编译的 IDEA 版本
     type.set("IC") // Target IDE Platform
 
 //    plugins.set(listOf(/* Plugin Dependencies */))
@@ -45,7 +45,7 @@ tasks {
 
     // 修改插件兼容的IDE版本范围为2023.1到2024..1
     patchPluginXml {
-        sinceBuild.set("231")
+        sinceBuild.set("221")
         untilBuild.set("241.*")
     }
 
