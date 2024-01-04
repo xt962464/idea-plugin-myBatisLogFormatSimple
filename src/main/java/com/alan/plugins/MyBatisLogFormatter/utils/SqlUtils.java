@@ -8,10 +8,10 @@ import java.util.regex.Pattern;
 
 public class SqlUtils {
 
-    private static final String preparing = "Preparing: ";
-    private static final String parameters = "Parameters: ";
+    private static final String PREPARING_KEY = "Preparing: ";
+    private static final String PARAMETERS_KEY = "Parameters: ";
 
-    public static final String sqlParametersPattern = "(,\\s){0,}(.*?)\\((Integer|int|Long|long|Float|float|String|char|Char|Date|LocalDateTime|localDateTime|LocalDate|localDate|Timestamp|Boolean|boolean)\\)";
+    public static final String sqlParametersPattern = "(,\\s){0,}(null)(,\\s){0,}|(,\\s){0,}(.*?)\\((Integer|int|Long|long|Float|float|String|char|Char|Date|LocalDateTime|localDateTime|LocalDate|localDate|Timestamp|Boolean|boolean)\\)(,\\s){0,}";
 
     public static final String sqlPlaceholder = "#占位符";
 
@@ -24,24 +24,24 @@ public class SqlUtils {
         String paramsLog = "";
         if (logSplitArr.length > 2) {
             for (String row : logSplitArr) {
-                if (row.contains(preparing)) {
-                    sqlLog = row.split(preparing)[1];
-                } else if (row.contains(parameters)) {
-                    String[] splitArr = row.split(parameters);
+                if (row.contains(PREPARING_KEY)) {
+                    sqlLog = row.split(PREPARING_KEY)[1];
+                } else if (row.contains(PARAMETERS_KEY)) {
+                    String[] splitArr = row.split(PARAMETERS_KEY);
                     if (splitArr.length == 2) {
                         paramsLog = splitArr[1];
                     }
                 }
             }
         } else if (logSplitArr.length == 2) {
-            sqlLog = logSplitArr[0].split(preparing)[1];
-            String[] splitArr = logSplitArr[1].split(parameters);
+            sqlLog = logSplitArr[0].split(PREPARING_KEY)[1];
+            String[] splitArr = logSplitArr[1].split(PARAMETERS_KEY);
             if (splitArr.length == 2) {
                 paramsLog = splitArr[1];
             }
         } else if (logSplitArr.length == 1) {
-            if (logSplitArr[0].contains(preparing)) {
-                sqlLog = logSplitArr[0].split(preparing)[1];
+            if (logSplitArr[0].contains(PREPARING_KEY)) {
+                sqlLog = logSplitArr[0].split(PREPARING_KEY)[1];
             }
         }
         return new String[]{sqlLog, paramsLog};
@@ -58,30 +58,47 @@ public class SqlUtils {
             parameters = mybatisLogArray[1];
         }
         if (StringUtils.isNotBlank(parameters)) {
+            parameters = parameters.replace(PARAMETERS_KEY, "");
             // 替换？占位符
             sql = sql.replace("?", sqlPlaceholder);
             // 匹配参数
             Pattern p = Pattern.compile(sqlParametersPattern);
             Matcher m = p.matcher(parameters);
             while (m.find()) {
-                String value = m.group(2);
-                String type = m.group(3);
-                switch (type) {
-                    case "String":
-                    case "string":
-                    case "Char":
-                    case "char":
-                    case "Date":
-                    case "date":
-                    case "LocalDateTime":
-                    case "localDateTime":
-                    case "LocalDate":
-                    case "localDate":
-                    case "Timestamp":
-                    case "timestamp":
-                        value = String.format("'%s'", value);
-                        break;
+                String group = m.group();
+                String group1 = m.group(1);
+                String nullStr = m.group(2);
+                String splitStr1 = m.group(3);
+                String splitStr2 = m.group(4);
+                String value = m.group(5);
+                String type = m.group(6);
+                if ("null".equalsIgnoreCase(nullStr)){
+                    value = "null";
+                    type = "null";
+                } else if (" (String), ".equalsIgnoreCase(group) ||
+                        "(String), ".equalsIgnoreCase(group) || "(String),".equalsIgnoreCase(group) || "(String)".equalsIgnoreCase(group) ||
+                        " (String),".equalsIgnoreCase(group) || " (String)".equalsIgnoreCase(group) || " (String) ".equalsIgnoreCase(group)){
+                    value = "''";
+                    type = "String";
+                } else {
+                    switch (type) {
+                        case "String":
+                        case "string":
+                        case "Char":
+                        case "char":
+                        case "Date":
+                        case "date":
+                        case "LocalDateTime":
+                        case "localDateTime":
+                        case "LocalDate":
+                        case "localDate":
+                        case "Timestamp":
+                        case "timestamp":
+                            value = String.format("'%s'", value);
+                            break;
+                    }
                 }
+//                System.out.println(String.format("type:%s, value:%s", type, value));
                 sql = sql.replaceFirst(sqlPlaceholder, value);
             }
         }

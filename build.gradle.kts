@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.alan.plugins"
-version = "1.1.0"
+version = "1.1.2"
 
 repositories {
     maven { url = uri("https://mirrors.cloud.tencent.com/nexus/repository/maven-public") }
@@ -45,7 +45,7 @@ tasks {
 
     // 修改插件兼容的IDE版本范围为2023.1到2024..1
     patchPluginXml {
-        sinceBuild.set("221")
+        sinceBuild.set("222")
         untilBuild.set("241.*")
     }
 
