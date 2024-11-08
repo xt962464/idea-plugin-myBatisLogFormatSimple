@@ -1,29 +1,35 @@
 package com.alan.plugins.MyBatisLogFormatter.toolWindow;
 
 import com.alan.plugins.MyBatisLogFormatter.component.DataListComponent;
+import com.alan.plugins.MyBatisLogFormatter.i18n.I18nBundle;
 import com.alan.plugins.MyBatisLogFormatter.utils.SqlUtils;
 import com.alan.plugins.MyBatisLogFormatter.utils.Utils;
+import com.intellij.DynamicBundle;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBScrollPane;
+import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.ui.components.JBTextArea;
 import com.intellij.ui.components.JBTextField;
-import com.intellij.ui.tabs.TabInfo;
-import com.intellij.ui.tabs.impl.JBTabsImpl;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.Locale;
 
 public class MybatisLogFormatToolWindow {
     private final JPanel contentPanel = new JPanel();
     private final ToolWindow toolWindow;
     private final Project project;
-    private JBTabsImpl jbTabs;
+//    private JBTabsImpl jbTabs;
+    private final JBTabbedPane jbTabbedPane = new JBTabbedPane();
     private DataListComponent formatResultDataListComponent;
+//    Locale locale = DynamicBundle.getLocale();
+//    String language = locale.getLanguage();
+
 
     public JPanel getContentPanel() {
         return contentPanel;
@@ -36,11 +42,11 @@ public class MybatisLogFormatToolWindow {
     }
 
     private void init() {
-        jbTabs = new JBTabsImpl(project);
+//        jbTabs = new JBTabsImpl(project);
         createFormatPanel();
         createCompressTabPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.add(jbTabs.getComponent(), BorderLayout.CENTER);
+        contentPanel.add(jbTabbedPane, BorderLayout.CENTER);
     }
 
     /**
@@ -75,8 +81,8 @@ public class MybatisLogFormatToolWindow {
         JPanel btnPanel = new JPanel();
         btnPanel.setPreferredSize(new Dimension(Short.MAX_VALUE, 40));
         btnPanel.setMaximumSize(new Dimension(Short.MAX_VALUE, 40));
-        JButton formatBtn = new JButton("format and copy");
-        JButton clearAllBtn = new JButton("clear all records");
+        JButton formatBtn = new JButton(I18nBundle.message("formatCopyLabel"));
+        JButton clearAllBtn = new JButton(I18nBundle.message("clearRecordsLabel"));
         formatBtn.addActionListener(e -> {
             String text = formatText.getText();
             if (StringUtils.isNotBlank(text)) {
@@ -107,9 +113,11 @@ public class MybatisLogFormatToolWindow {
 
         formatTabPanel.add(resultPanel);
 
-        TabInfo formatTabInfo = new TabInfo(formatTabPanel);
-        formatTabInfo.setText("Formatter");
-        jbTabs.addTab(formatTabInfo);
+//        TabInfo formatTabInfo = new TabInfo(formatTabPanel);
+//        formatTabInfo.setText("Formatter");
+//        jbTabs.addTab(formatTabInfo);
+        jbTabbedPane.addTab(I18nBundle.message("formatterLabel"), formatTabPanel);
+
     }
 
     /**
@@ -136,14 +144,14 @@ public class MybatisLogFormatToolWindow {
         logItem.add(logTextLabel, BorderLayout.CENTER);
 
         // copy
-        JButton button = new JButton("copy");
+        JButton button = new JButton(I18nBundle.message("copyLabel"));
         button.addActionListener(e -> {
             String text = textField.getText();
             if (StringUtils.isNotBlank(text)) {
                 Utils.copy(text);
-                button.setText("copied");
+                button.setText(I18nBundle.message("copiedLabel"));
                 Utils.timerTask(2, () -> {
-                    button.setText("copy");
+                    button.setText(I18nBundle.message("copyLabel"));
                 });
             }
         });
@@ -188,8 +196,8 @@ public class MybatisLogFormatToolWindow {
         JPanel btnPanel = new JPanel();
         btnPanel.setPreferredSize(new Dimension(Short.MAX_VALUE, 40));
         btnPanel.setMaximumSize(new Dimension(Short.MAX_VALUE, 40));
-        JButton compressBtn = new JButton("compress and copy");
-        JButton beautifyBtn = new JButton("beautify and copy");
+        JButton compressBtn = new JButton(I18nBundle.message("compressCopyLabel"));
+        JButton beautifyBtn = new JButton(I18nBundle.message("beautifyCopyLabel"));
 
         btnPanel.add(compressBtn);
         btnPanel.add(beautifyBtn);
@@ -234,9 +242,10 @@ public class MybatisLogFormatToolWindow {
             }
         });
 
-        TabInfo compressTabInfo = new TabInfo(compressTabPanel);
-        compressTabInfo.setText("Compress");
-        jbTabs.addTab(compressTabInfo);
+//        TabInfo compressTabInfo = new TabInfo(compressTabPanel);
+//        compressTabInfo.setText("Compress");
+//        jbTabs.addTab(compressTabInfo);
+        jbTabbedPane.addTab(I18nBundle.message("compressLabel"), compressTabPanel);
     }
 
 }

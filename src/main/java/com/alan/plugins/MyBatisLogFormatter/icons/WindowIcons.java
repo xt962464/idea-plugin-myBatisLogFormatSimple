@@ -5,6 +5,6 @@ import com.intellij.openapi.util.IconLoader;
 import javax.swing.*;
 
 public interface WindowIcons {
-    Icon Me = IconLoader.getIcon("/icons/me.svg", WindowIcons.class);
+    Icon Me = IconLoader.getIcon("/icons/icon.svg", WindowIcons.class);
 
 }
